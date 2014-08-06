@@ -9,16 +9,17 @@
 import UIKit
 import Foundation
 
-class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,PeopleConnectorProtocol {
 
     @IBOutlet var appsTableView:UITableView?
-
+    let kCellIdentifier: String = "SearchResultCell"
     var tableData = []
+    var api = PeopleConnector()
                             
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        getPeople()
+        self.api.delegate = self
+        api.list()
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,11 +30,11 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         return tableData.count;
     }
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        let cell:UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
         var person :NSDictionary = tableData[indexPath.row]as NSDictionary
+
         var name = person["NAME"] as NSString
         var lastname = person["LASTNAME"] as NSString
-        
         var city = person["CITY"] as NSString
         var country = person["COUNTRY"] as NSString
         
@@ -42,27 +43,22 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         
         return cell
     }
-    func getPeople(){
-        println("Request data")
-        let urlPath = "http://at3node.mybluemix.net"
-        let url: NSURL = NSURL(string: urlPath)
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithURL(url)
-            {
-                (data,response,error)in
-                if(error){
-                    println(error.localizedDescription)
-                }
-                else
-                {
-                    var result: NSArray = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-                    self.tableData = result
-                    self.appsTableView!.reloadData()
-                    println("Read Data")
-                }
-        }
-        task.resume()
+    func tableView(tableView: UITableView!, didDeselectRowAtIndexPath indexPath: NSIndexPath!) {
+        println(indexPath.row)
+        var person :NSDictionary = tableData[indexPath.row]as NSDictionary
+        var lastname = person["LASTNAME"] as NSString
+        var country = person["COUNTRY"] as NSString
+        var alert:UIAlertView = UIAlertView()
+        alert.title = lastname
+        alert.message = country
+        alert.addButtonWithTitle("Ok")
+        alert.show()
     }
-
+    func didReceiveAPIResults(results: NSArray) {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.tableData = results
+            self.appsTableView!.reloadData()
+        })
+    }
 }
 
