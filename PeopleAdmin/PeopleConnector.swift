@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 protocol PeopleConnectorProtocol{
     func didReceiveAPIResults(results:NSArray)
 }
@@ -15,28 +16,25 @@ protocol PeopleConnectorProtocol{
 class PeopleConnector{
     
     var delegate:PeopleConnectorProtocol?
+    let manager = AFHTTPRequestOperationManager()
     
     init()
     {
         
     }
     func list(){
-        let urlPath = "http://at3node.mybluemix.net"
-        let url: NSURL = NSURL(string: urlPath)
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithURL(url)
-            {
-                (data,response,error)in
-                if(error){
-                    println(error.localizedDescription)
-                }
-                else
+        manager.GET("http://at3node.mybluemix.net/",
+            parameters:nil,
+            success:{(operation:AFHTTPRequestOperation!,responseObject:AnyObject!)in
+                if responseObject.isKindOfClass(NSArray)
                 {
-                    var result: NSArray = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-                    self.delegate?.didReceiveAPIResults(result)
-                    println("Data was read")
+                    println("Array")
+                    self.delegate?.didReceiveAPIResults(responseObject as NSArray)
                 }
-        }
-        task.resume()
+                println("JSON:"+responseObject.description)
+            },
+            failure:{(operation:AFHTTPRequestOperation!,error:NSError!)in
+                println("Error:"+error.localizedDescription)
+        })
     }
 }

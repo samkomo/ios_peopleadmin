@@ -18,6 +18,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
                             
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.api.delegate = self
         api.list()
     }
@@ -43,16 +44,13 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         
         return cell
     }
-    func tableView(tableView: UITableView!, didDeselectRowAtIndexPath indexPath: NSIndexPath!) {
-        println(indexPath.row)
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        println("You selected cell #\(indexPath.row)!")
+        /*
         var person :NSDictionary = tableData[indexPath.row]as NSDictionary
         var lastname = person["LASTNAME"] as NSString
         var country = person["COUNTRY"] as NSString
-        var alert:UIAlertView = UIAlertView()
-        alert.title = lastname
-        alert.message = country
-        alert.addButtonWithTitle("Ok")
-        alert.show()
+        var alert:UIAlertView = UIAlertView()*/
     }
     func didReceiveAPIResults(results: NSArray) {
         dispatch_async(dispatch_get_main_queue(), {
