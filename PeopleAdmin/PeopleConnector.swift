@@ -28,10 +28,8 @@ class PeopleConnector{
             success:{(operation:AFHTTPRequestOperation!,responseObject:AnyObject!)in
                 if responseObject.isKindOfClass(NSArray)
                 {
-                    println("Array")
                     self.delegate?.didReceiveAPIResults(responseObject as NSArray)
                 }
-                println("JSON:"+responseObject.description)
             },
             failure:{(operation:AFHTTPRequestOperation!,error:NSError!)in
                 println("Error:"+error.localizedDescription)

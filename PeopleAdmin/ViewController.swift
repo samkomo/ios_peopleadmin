@@ -15,6 +15,8 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     let kCellIdentifier: String = "SearchResultCell"
     var tableData = []
     var api = PeopleConnector()
+    var personSelected:NSDictionary!
+
                             
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +34,9 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     }
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
-        var person :NSDictionary = tableData[indexPath.row]as NSDictionary
-
+        
+        var person = tableData[indexPath.row]as NSDictionary
+        
         var name = person["NAME"] as NSString
         var lastname = person["LASTNAME"] as NSString
         var city = person["CITY"] as NSString
@@ -45,12 +48,8 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         return cell
     }
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        println("You selected cell #\(indexPath.row)!")
-        /*
-        var person :NSDictionary = tableData[indexPath.row]as NSDictionary
-        var lastname = person["LASTNAME"] as NSString
-        var country = person["COUNTRY"] as NSString
-        var alert:UIAlertView = UIAlertView()*/
+        personSelected = tableData[indexPath.row]as NSDictionary
+        performSegueWithIdentifier("person_detail", sender: self)
     }
     func didReceiveAPIResults(results: NSArray) {
         dispatch_async(dispatch_get_main_queue(), {
@@ -58,5 +57,12 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             self.appsTableView!.reloadData()
         })
     }
-}
+    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
 
+        if segue.identifier=="person_detail"{
+            
+            var detail = segue!.destinationViewController as PersonViewController
+            detail.person = personSelected
+        }
+    }
+}
