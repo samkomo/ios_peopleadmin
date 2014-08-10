@@ -16,11 +16,16 @@ class PersonViewController:UIViewController{
     @IBOutlet weak var tCity: UITextField!
     @IBOutlet weak var tCountry: UITextField!
     
+    
+    var api = PersonConnector()
+
     var person:NSDictionary!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
+        
         var id = person["ID"] as NSInteger
         tId.text = String(id)
         tName.text = person["NAME"] as NSString
@@ -32,5 +37,27 @@ class PersonViewController:UIViewController{
     }
     
     override func didReceiveMemoryWarning() {
+    }
+    
+    @IBAction func bUpdate(sender: AnyObject) {
+        var newPerson:NSDictionary = ["NAME":tName.text,
+            "LASTNAME":tLastname.text,
+            "CITY":tCity.text,
+            "COUNTRY":tCountry.text,
+            "ID":tId.text
+        ]
+        api.update(newPerson)
+    }
+    @IBAction func bCreate(sender: AnyObject) {
+        var newPerson:NSDictionary = ["NAME":tName.text,
+            "LASTNAME":tLastname.text,
+            "CITY":tCity.text,
+            "COUNTRY":tCountry.text
+        ]
+        api.create(newPerson);
+    }
+    @IBAction func bDelete(sender: AnyObject) {
+        var id:Int = tId.text.toInt()!
+        api.delete(id)
     }
 }

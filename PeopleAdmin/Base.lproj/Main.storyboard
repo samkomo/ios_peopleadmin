@@ -131,18 +131,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0k7-9A-HEo">
-                                <rect key="frame" x="57" y="518" width="56" height="30"/>
-                                <state key="normal" title="Guardar">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oon-VN-JIu">
-                                <rect key="frame" x="221" y="518" width="58" height="30"/>
-                                <state key="normal" title="Eliminar">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bhH-DA-dqg">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <items>
@@ -155,6 +143,26 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wJZ-ZW-Hnr">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem title="Update" id="A7Z-Kv-rd6">
+                                        <connections>
+                                            <action selector="bUpdate:" destination="YBe-Ku-bp0" id="yr9-1S-D5w"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="New" id="tBy-qb-SsU">
+                                        <connections>
+                                            <action selector="bCreate:" destination="YBe-Ku-bp0" id="QrE-XJ-rSg"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Delete" id="ewQ-6u-6VT">
+                                        <connections>
+                                            <action selector="bDelete:" destination="YBe-Ku-bp0" id="VsG-fe-sGl"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

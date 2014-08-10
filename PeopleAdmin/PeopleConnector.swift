@@ -10,25 +10,26 @@ import Foundation
 
 
 protocol PeopleConnectorProtocol{
-    func didReceiveAPIResults(results:NSArray)
+    func didReceiveList(results:NSArray)
 }
 
 class PeopleConnector{
     
     var delegate:PeopleConnectorProtocol?
-    let manager = AFHTTPRequestOperationManager()
+    let manager:AFHTTPRequestOperationManager
     
     init()
     {
-        
+        var url:NSURL = NSURL(string:"http://at3node.mybluemix.net")
+        manager = AFHTTPRequestOperationManager(baseURL:url)
     }
     func list(){
-        manager.GET("http://at3node.mybluemix.net/",
+        manager.GET("",
             parameters:nil,
             success:{(operation:AFHTTPRequestOperation!,responseObject:AnyObject!)in
                 if responseObject.isKindOfClass(NSArray)
                 {
-                    self.delegate?.didReceiveAPIResults(responseObject as NSArray)
+                    self.delegate?.didReceiveList(responseObject as NSArray)
                 }
             },
             failure:{(operation:AFHTTPRequestOperation!,error:NSError!)in

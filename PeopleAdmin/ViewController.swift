@@ -13,13 +13,21 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
 
     @IBOutlet var appsTableView:UITableView?
     let kCellIdentifier: String = "SearchResultCell"
-    var tableData = []
-    var api = PeopleConnector()
+    var tableData:NSArray!
+    var api:PeopleConnector!
     var personSelected:NSDictionary!
+    var refreshControl:UIRefreshControl!
 
                             
     override func viewDidLoad() {
         super.viewDidLoad()
+        api = PeopleConnector()
+        tableData = []
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refersh")
+        refreshControl.addTarget(self, action: Selector("loadData"), forControlEvents: UIControlEvents.ValueChanged)
+        appsTableView?.addSubview(refreshControl)
+        
 
         self.api.delegate = self
         api.list()
@@ -28,6 +36,10 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    func loadData()
+    {
+        api.list()
     }
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return tableData.count;
@@ -51,10 +63,11 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         personSelected = tableData[indexPath.row]as NSDictionary
         performSegueWithIdentifier("person_detail", sender: self)
     }
-    func didReceiveAPIResults(results: NSArray) {
+    func didReceiveList(results: NSArray) {
         dispatch_async(dispatch_get_main_queue(), {
             self.tableData = results
             self.appsTableView!.reloadData()
+            self.refreshControl.endRefreshing()
         })
     }
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {

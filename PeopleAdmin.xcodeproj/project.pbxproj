@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0BFC426C3751475F9E87AF5D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CCAF031BEF8492D8005BDBF /* libPods.a */; };
+		AB26F6A21996DE4400AF5B3C /* PersonConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB26F6A11996DE4400AF5B3C /* PersonConnector.swift */; };
 		ABDF226C19944DFB00BBDC41 /* PersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDF226B19944DFB00BBDC41 /* PersonViewController.swift */; };
 		ABEEB5401991E44C004D7DA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB53F1991E44C004D7DA0 /* AppDelegate.swift */; };
 		ABEEB5421991E44C004D7DA0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB5411991E44C004D7DA0 /* ViewController.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		1CCAF031BEF8492D8005BDBF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E00666CEFB64BCCBE4D5E0A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		AB26F6A11996DE4400AF5B3C /* PersonConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonConnector.swift; sourceTree = "<group>"; };
 		ABDF22681994303C00BBDC41 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Bridging-Header.h"; path = "../Bridging-Header.h"; sourceTree = "<group>"; };
 		ABDF226B19944DFB00BBDC41 /* PersonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonViewController.swift; sourceTree = "<group>"; };
 		ABEEB53A1991E44B004D7DA0 /* PeopleAdmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PeopleAdmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +101,7 @@
 				ABEEB5411991E44C004D7DA0 /* ViewController.swift */,
 				ABFF977C1992D4CF009F1641 /* PeopleConnector.swift */,
 				ABDF226B19944DFB00BBDC41 /* PersonViewController.swift */,
+				AB26F6A11996DE4400AF5B3C /* PersonConnector.swift */,
 				ABEEB5431991E44C004D7DA0 /* Main.storyboard */,
 				ABEEB5461991E44C004D7DA0 /* Images.xcassets */,
 				ABEEB53D1991E44B004D7DA0 /* Supporting Files */,
@@ -269,6 +272,7 @@
 				ABFF977D1992D4CF009F1641 /* PeopleConnector.swift in Sources */,
 				ABEEB5401991E44C004D7DA0 /* AppDelegate.swift in Sources */,
 				ABDF226C19944DFB00BBDC41 /* PersonViewController.swift in Sources */,
+				AB26F6A21996DE4400AF5B3C /* PersonConnector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
