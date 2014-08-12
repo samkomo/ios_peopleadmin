@@ -9,31 +9,48 @@
 import UIKit
 import Foundation
 
-class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,PeopleConnectorProtocol {
 
     @IBOutlet var appsTableView:UITableView?
+    let kCellIdentifier: String = "SearchResultCell"
+    var tableData:NSArray!
+    var api:PeopleConnector!
+    var personSelected:NSDictionary!
+    var refreshControl:UIRefreshControl!
 
-    var tableData = []
                             
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        getPeople()
+        api = PeopleConnector()
+        tableData = []
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refersh")
+        refreshControl.addTarget(self, action: Selector("loadData"), forControlEvents: UIControlEvents.ValueChanged)
+        appsTableView?.addSubview(refreshControl)
+        
+
+        self.api.delegate = self
+        api.list()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    func loadData()
+    {
+        api.list()
+    }
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return tableData.count;
     }
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        let cell:UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
-        var person :NSDictionary = tableData[indexPath.row]as NSDictionary
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
+        
+        var person = tableData[indexPath.row]as NSDictionary
+        
         var name = person["NAME"] as NSString
         var lastname = person["LASTNAME"] as NSString
-        
         var city = person["CITY"] as NSString
         var country = person["COUNTRY"] as NSString
         
@@ -42,27 +59,23 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         
         return cell
     }
-    func getPeople(){
-        println("Request data")
-        let urlPath = "http://at3node.mybluemix.net"
-        let url: NSURL = NSURL(string: urlPath)
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithURL(url)
-            {
-                (data,response,error)in
-                if(error){
-                    println(error.localizedDescription)
-                }
-                else
-                {
-                    var result: NSArray = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-                    self.tableData = result
-                    self.appsTableView!.reloadData()
-                    println("Read Data")
-                }
-        }
-        task.resume()
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        personSelected = tableData[indexPath.row]as NSDictionary
+        performSegueWithIdentifier("person_detail", sender: self)
     }
+    func didReceiveList(results: NSArray) {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.tableData = results
+            self.appsTableView!.reloadData()
+            self.refreshControl.endRefreshing()
+        })
+    }
+    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
 
+        if segue.identifier=="person_detail"{
+            
+            var detail = segue!.destinationViewController as PersonViewController
+            detail.person = personSelected
+        }
+    }
 }
-
